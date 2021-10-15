@@ -1,0 +1,21 @@
+<main role="main" class="container">
+    <div class="login-container">
+        <div class="login-content">
+            <h4><strong>EMS Inlog</strong></h4>
+            <hr>
+            <form>
+                <div class="input-group mb-3">
+                    <input type="text"  class="form-control login-user" ng-model="user.username" placeholder="gebruikersnaam">
+                </div>
+
+                <div class="input-group mb-2">
+                    <input type="password"  class="form-control login-pass" ng-model="user.password" placeholder="wacthtwoord">
+                </div>
+
+                <div class="form-group">
+                    <button ng-click="login(user)" class="btn btn-primary btn-login">Inloggen</button>                    
+                </div>               
+            </form>
+        </div>
+    </div>
+</main>

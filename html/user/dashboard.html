@@ -1,0 +1,29 @@
+<main role="main" class="container">
+    <div class="container_container">
+        
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Searche client" ng-model="searche">
+          <div class="input-group-append">
+            <button ng-click="findClients(searche)" class="btn btn-warning searche_btn">Searche</button>
+          </div>
+        </div>
+        
+        <div ng-if="clients.length > 0">
+            <div class="card" ng-repeat="client in clients">
+              <div class="card-body">
+                <h5 class="card-title"><span ng-bind-html="client.firstname"></span> <span ng-bind-html="client.lastname"></span></h5>
+                <h6 class="card-subtitle mb-2 text-muted">bsnNumber:<span ng-bind-html="client.bsnNumber"></span></h6>
+                <p class="card-text">Some quick example text to build on the panel title and make up the bulk of the panel's content.</p>
+                <a ui-sref="allDocuments({uuid:client.bsnNumber})" class="card-link">All Documents</a>
+                <a ui-sref="newDocuments({uuid:client.bsnNumber})" class="card-link">New Document</a>
+              </div>
+            </div>
+        </div>
+
+        <div ng-if="clients.length < 1" class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4"><a ui-sref="createProfile" class="btn btn-warning">Create Profile</a></div>
+        </div>
+
+    </div>
+</main>

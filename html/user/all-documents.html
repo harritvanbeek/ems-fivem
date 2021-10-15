@@ -1,0 +1,39 @@
+<main role="main" class="container-fluid">
+    <div class="container_container">
+        <div class="row">
+            <div class="col-md-3">
+                <input placeholder="filter" ng-model="search" class="form-control">
+            </div>
+
+            <div class="col-md-7">
+                <div class="row">
+                   
+                    <div class="col-md-12" style="padding-bottom: 20px;" ng-repeat="item in items | filter:search">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <div class="float-left">
+                                        <span class="h5" ng-bind-html="item.subject"></span>
+                                    </div>
+                                    <div class="float-right">
+                                        <i class="fas fa-user"></i>
+                                        <span ng-bind-html="item.MeFname"></span>
+                                        <span ng-bind-html="item.MeLname"></span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <p class="card-text"> 
+                                    <i class="far fa-clock"></i> <span ng-bind-html="item.time"></span><br>
+                                    <i class="far fa-calendar-alt"></i> <span ng-bind-html="item.createdate"></span>
+                                </p>
+                                <div ng-bind-html="item.content"></div>
+                                <a ui-sref="readDocument({'uuid':item.contentUuid})" class="btn btn-flat red-text p-1 my-1 mr-0 mml-1">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

@@ -1,0 +1,38 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar navbar-custom bg-custom">
+    <div class="container">
+        <a class="navbar-brand">
+            <img src="./assets/images/icon.png" alt="">
+            <span class="h5">Ambulancezorg</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item" ng-if="me.MeCnumber">
+                <div class="nav-link text-black">Welkom <span ng-bind-html="me.MeCnumber"></span> | <span ng-bind-html="me.MeFname"></span> <span ng-bind-html="me.MeLname"></span></div>                 
+            </li> 
+
+            <!-- <li class="nav-item"><a class="nav-link">Medication</a></li> -->         
+        </ul>
+
+        <ul class="navbar-nav nav-flex-icons">
+            <li class="nav-item">
+                <a href="./index.php?logout=logout" class="nav-link">Logout</a>
+            </li>
+
+            <li class="nav-item dropdown" ng-if="me.primissions === '200'">
+              <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Admin
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                <a ui-sref="users" class="dropdown-item">Users</a>                
+                <!-- <a ui-sref="" class="dropdown-item">Settings</a> -->                
+              </div>
+            </li>
+        </ul>
+
+      </div>
+    </div>
+  </nav>

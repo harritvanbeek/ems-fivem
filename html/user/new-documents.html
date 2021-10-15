@@ -1,0 +1,60 @@
+<main role="main" class="container">
+    <div class="container_container">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <table class="table">
+                            <tr>
+                                <td>Social Security Number:</td>
+                                <td><span ng-bind-html="user.ssn"></span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Client:</td>
+                                <td><span ng-bind-html="user.firstname"></span> <span ng-bind-html="user.lastname"></span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Date:</td>
+                                <td ng-bind-html="user.date"></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="col-md-6">
+                        <table class="table">
+                            <tr>
+                                <td>Callsign:</td>
+                                <td><span ng-bind-html="user.MeCnumber"></span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Rank:</td>
+                                <td><span ng-bind-html="user.MeRank"></span></td>
+                            </tr>
+
+                            <tr>
+                                <td>You:</td>
+                                <td><span ng-bind-html="user.MeFname"></span> <span ng-bind-html="user.MeLname"></span></td>
+                            </tr>                            
+                        </table>
+
+                    </div>
+                </div>
+
+
+                
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" class="form-control" ng-model="user.subject">
+                <br>
+                
+                <textarea ui-tinymce ng-model="user.content"></textarea>
+                
+                <button  ng-click="setDocument(user)" class="btn btn-warning">Save</button>
+
+            </div>
+        </div>                
+    </div>
+</main>
