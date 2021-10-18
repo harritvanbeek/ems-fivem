@@ -40,7 +40,8 @@ CREATE TABLE `clientdata` (
   `MeCnumber` char(5) COLLATE utf8_bin NOT NULL,
   `MeRank` char(10) COLLATE utf8_bin NOT NULL,
   `subject` char(255) COLLATE utf8_bin NOT NULL,
-  `content` longtext COLLATE utf8_bin NOT NULL
+  `content` longtext COLLATE utf8_bin NOT NULL,
+  `postUpdate` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------

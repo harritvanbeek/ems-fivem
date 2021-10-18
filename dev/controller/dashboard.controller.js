@@ -7,7 +7,41 @@ boann.controller('DashboardController', ['$scope', '$http', '$window', '$state',
     var state       =   $state.$current.url.pattern.split("/")[1];
 
     switch(state){
-        case "update-document" :            
+        case "update-owner-document" :
+            $scope.updateDocument   =   function(data){
+                var VALUES  = [{data:data}];
+                $http.post(URI, VALUES, {params:{action:"updateDocument"}}).then(function(data){
+                    if(data.status === 200){
+                        console.log(data.data);
+                        switch(data.data.data){
+                            case "success" :
+                                swal(
+                                    "Well done!!",
+                                    data.data.dataContent, 
+                                    "success"
+                                ).then(function(value){
+                                    if(value === true){
+                                        $state.go("dashboard");                                
+                                    }
+                                });
+                            break;
+                            
+                            case "error" :
+                                swal("Oeps!", data.data.dataContent, "error");
+                            break
+                        }
+                    }
+                });
+            } 
+
+            $http.get(URI, {params:{action:"getUpdateDocument", uuid:$stateParams.uuid}}).then(function(data){
+                if(data.status === 200){
+                    $scope.user = data.data;                    
+                }
+            });
+        break;
+        
+        case "update-document" :
             $http.get(URI, {params:{action:"getUpdateDocument", uuid:$stateParams.uuid}}).then(function(data){
                 if(data.status === 200){
                     $scope.user = data.data;                    
@@ -107,8 +141,8 @@ boann.controller('DashboardController', ['$scope', '$http', '$window', '$state',
             $scope.save = function(item){
                 var VALUES  = [{data:item}];
                 $http.post(URI, VALUES, {params:{action:"createProfile"}}).then(function(data){
-                    if(data.status === 200){                    
                         console.log(data.data);
+                    if(data.status === 200){                    
                         switch(data.data.data){
                             case "success" :
                                 swal(

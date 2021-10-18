@@ -18,7 +18,7 @@
 
                             <tr>
                                 <td>Date:</td>
-                                <td ng-bind-html="user.createdate"></td>
+                                <td ng-bind-html="user.date"></td>
                             </tr>
                         </table>
                     </div>
@@ -45,13 +45,15 @@
                 </div>
 
 
-                <div class="md-form">
-                    <div ng-bind-html="user.subject"></div>                    
-                </div>
                 
-                <div ng-bind-html="user.content"></div>
-                <a ng-if="user.UserUuid === user.MeUuid" ui-sref="updateOwnerDocument({'uuid':user.contentUuid})" class="btn btn-warning">Update</a>                
-                <a ng-if="user.UserUuid !== user.MeUuid" ui-sref="updateDocument({'uuid':user.contentUuid})" class="btn btn-warning">Update</a>
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" class="form-control" ng-model="user.subject">
+                <br>
+                
+                <textarea ui-tinymce ng-model="user.content"></textarea>
+                             
+                <button  ng-click="updateDocument(user)" class="btn btn-warning">bla Save</button>
+
             </div>
         </div>                
     </div>

@@ -27,12 +27,53 @@
                 echo json_encode($dataArray);
             }
         break;
+
+        case "updateDocument" :
+            if($input->exist()){
+                $contentUuid    =   !empty($input->get("data")["contentUuid"])  ?   $input->get("data")["contentUuid"]      : null;
+                $subject        =   !empty($input->get("data")["subject"])      ?   escape($input->get("data")["subject"])  : null;
+                $content        =   !empty($input->get("data")["content"])      ?   $input->get("data")["content"]          : null;
+
+                if(empty($subject)      === true) { $error = ["Subject is required value"];}
+                elseif(empty($content)  === true) { $error = ["Content is required value"];}
+
+                if(empty($input->get("data")) === false and empty($error) === true){
+                    $postArray  =   [
+                        "contentUuid"   =>  "{$contentUuid}",
+                        "subject"       =>  "{$subject}",
+                        "content"       =>  "{$content}",
+                        "postUpdate"    =>  date("Y-m-d H:i:s"),
+                    ];
+
+                    if($client->updateDocument($postArray) > 0){
+                        $dataArray  =   [
+                            "data"          =>  "success",
+                            "dataContent"   =>  "Document is updated",
+                        ];
+                    }else{
+                        $dataArray  =   [
+                            "data"          =>  "error",
+                            "dataContent"   =>  "Database issu try later again",
+                        ];
+                    };
+                }else{
+                    $dataArray  =   [
+                        "data"          =>  "error",
+                        "dataContent"   =>  "{$error[0]}",
+                    ];                     
+                }
+                echo json_encode($dataArray);
+
+            }
+        break;
+
         case "getUpdateDocument" :
             if($input->exist("get")){
                 $uuid       =   !empty($input->get("uuid")) ? $input->get("uuid") : NULL;
                 $data       = $client->getReadDocument($uuid);
                 $dataArray = [
-                    "clientUuid"    =>  "{$data->uuid}",
+                    "contentUuid"   =>  "{$data->contentUuid}",
+                    "clientUuid"    =>  "{$data->clientUuid}",
                     "ssn"           =>  "{$data->ssn}",
                     "firstname"     =>  "{$data->firstname}",
                     "lastname"      =>  "{$data->lastname}",
@@ -53,7 +94,27 @@
         case "getReadDocument" :
             if($input->exist("get")){
                 $uuid       =   !empty($input->get("uuid")) ? $input->get("uuid") : NULL;
-                echo json_encode($client->getReadDocument($uuid));
+                $data       =   $client->getReadDocument($uuid);
+                if(!empty($data)){ 
+                    $dataArray  =   [
+                        "ssn"           =>  "{$data->ssn}",
+                        "firstname"     =>  "{$data->firstname}",
+                        "lastname"      =>  "{$data->lastname}",
+                        "createdate"    =>  "{$data->createdate}",
+                        "UserUuid"      =>  "{$data->UserUuid}",
+                        "MeUuid"        =>  "{$me->me()->uuid}",
+                        "MeCnumber"     =>  "{$data->MeCnumber}",
+                        "MeRank"        =>  "{$data->MeRank}",
+                        "MeFname"       =>  "{$data->MeFname}",
+                        "MeLname"       =>  "{$data->MeLname}",
+                        "subject"       =>  "{$data->subject}",
+                        "content"       =>  "{$data->content}",
+                        "contentUuid"   =>  "{$data->contentUuid}",
+                    ];
+                }else{
+                    $dataArray  =   [];
+                }
+                echo json_encode($dataArray);
             }
         break;
 
@@ -67,12 +128,19 @@
                         $content     =  preg_replace( "/\r|\n/", "", $content); 
                         $content     =  mb_strimwidth($content, 0, 230, '...'); 
                         $date        =  new DateTime($data->createdate);
+                        $postUpdate  =  new DateTime($data->postUpdate);
                         
                         $dataArray[] =    [
                             "contentUuid" =>  "{$data->contentUuid}",
                             "subject"      =>  "{$data->subject}",
                             "createdate"   =>  "{$date->format('l d, F Y')}",
                             "time"         =>  "{$date->format('H:i')}",
+                            
+                            "postUpdate"   =>  !empty($data->postUpdate) ? "{$postUpdate->format('l d, F Y')}" :  null,
+                            "timeUpdate"   =>  !empty($data->postUpdate) ? "{$postUpdate->format('H:i')}" :  null,
+                            
+                            "UserUuid"     =>  "{$data->UserUuid}",
+                            "MeUuid"       =>  "{$me->me()->uuid}",
                             "MeFname"      =>  "{$data->MeFname}",
                             "MeLname"      =>  "{$data->MeLname}",
                             "content"      =>  "{$content}",
@@ -151,7 +219,6 @@
                     "firstname"     =>  "{$data->firstname}",
                     "lastname"      =>  "{$data->lastname}",
                     "date"          =>  date("Y-m-d H:i:s"),
-                    
                     "UserUuid"      =>  "{$me->me()->uuid}",
                     "MeFname"       =>  "{$me->me()->MeFname}",
                     "MeLname"       =>  "{$me->me()->MeLname}",
@@ -166,7 +233,7 @@
         case "createProfile" :
             if($input->exist()){
                 $ssn                    =   !empty($input->get("data")["ssn"])                  ? escape($input->get("data")["ssn"])                    : NULL;
-                $fisrtname              =   !empty($input->get("data")["fisrtname"])            ? escape($input->get("data")["fisrtname"])              : NULL;
+                $firstname              =   !empty($input->get("data")["firstname"])            ? escape($input->get("data")["firstname"])              : NULL;
                 $lastname               =   !empty($input->get("data")["lastname"])             ? escape($input->get("data")["lastname"])               : NULL;
                 $birthdate              =   !empty($input->get("data")["birthdate"])            ? escape($input->get("data")["birthdate"])              : NULL;
                 $sex                    =   !empty($input->get("data")["sex"])                  ? escape($input->get("data")["sex"])                    : NULL;
@@ -186,8 +253,8 @@
                     $postArray =    [
                         "uuid"          =>  "{$settings->MakeUuid()}",
                         "ssn"           =>  "{$ssn}",
-                        "firstname"     =>  "{$firstname}",
-                        "lastname"      =>  "{$lastname}",
+                        "firstname"     =>  ucfirst("{$firstname}"),
+                        "lastname"      =>  ucfirst("{$lastname}"),
                         "birthdate"     =>  "{$birthdate}",
                         "sex"           =>  "{$sex}",
                         "nationality"   =>  "{$nationality}",
@@ -195,7 +262,7 @@
                         "driverlicense" =>  "{$driverlicense}",
                     ];
                     
-                    if($search->setClient($postArray) > 0){
+                    if($client->setClient($postArray) > 0){
                         $dataArray  =   [
                             "data"          =>  "success",
                             "dataContent"   =>  "Profile is created",

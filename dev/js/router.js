@@ -106,5 +106,20 @@ boann.config(['$stateProvider', '$urlMatcherFactoryProvider', '$urlRouterProvide
                         controller: "DashboardController",
                     },
                 }
+            })
+            .state({
+                name:"updateOwnerDocument",
+                url: "/update-owner-document/:uuid/",
+                views : {
+                    "nav" : {
+                        templateUrl : "./html/nav.html?v="+controler.version,  
+                        controller  : "NavigationController",                      
+                    },
+
+                    "mainpage" : {
+                        templateUrl : "./html/user/update-documents.html?v="+controler.version,                        
+                        controller: "DashboardController",
+                    },
+                }
             });
 }]);

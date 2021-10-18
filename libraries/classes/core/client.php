@@ -13,6 +13,10 @@ class client{
         $this->_SESSION     = NEW \classes\core\session;
     }
 
+    public function updateDocument($data = []){
+        return self::_updateDocument($data);
+    }
+
     public function getReadDocument($data = null){
         return self::_getReadDocument($data);
     }
@@ -33,6 +37,17 @@ class client{
         return self::_setClient($data);
     }
     
+    protected function _updateDocument($data = []){        
+        $this->query    =   "UPDATE `clientdata` 
+                                SET 
+                                    `subject`       = :subject, 
+                                    `content`       = :content, 
+                                    `postUpdate`    = :postUpdate 
+                            WHERE `contentUuid` = :contentUuid
+                            ";
+        return $this->_DB->action($this->query, $data);
+    }
+
     protected function _getReadDocument($data = null){
         $this->array =  ["contentUuid" => "{$data}"];
         $this->query = "SELECT * FROM `clientdata` WHERE `contentUuid` = :contentUuid";
@@ -40,8 +55,12 @@ class client{
     }
 
     protected function _getAllDocument($data = null){
-        $this->query = "SELECT * FROM `clientdata` ORDER BY `clientdata`.`createdate` DESC ";
-        return $this->_DB->getAll($this->query);
+        $this->array =  ["ssn"=> "{$data}"];
+        $this->query = "SELECT * FROM `clientdata` 
+                            WHERE `ssn` = :ssn
+                            ORDER BY `clientdata`.`createdate` DESC
+                        ";
+        return $this->_DB->getAll($this->query, $this->array);
     }
 
     protected function _setDocument($data = []){

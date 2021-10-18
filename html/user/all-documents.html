@@ -22,10 +22,22 @@
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
-                                <p class="card-text"> 
-                                    <i class="far fa-clock"></i> <span ng-bind-html="item.time"></span><br>
-                                    <i class="far fa-calendar-alt"></i> <span ng-bind-html="item.createdate"></span>
+                                <p class="card-text clearfix"> 
+                                    <span class="float-left">
+                                        Created
+                                        <i class="far fa-clock"></i> <span ng-bind-html="item.time"></span><br>
+                                        <i class="far fa-calendar-alt"></i> <span ng-bind-html="item.createdate"></span>
+                                    </span>
+
+                                    <span ng-if="item.timeUpdate || item.postUpdate" class="float-right">
+                                        Updated
+                                        <i class="far fa-clock"></i> <span ng-bind-html="item.timeUpdate"></span><br>
+                                        <i class="far fa-calendar-alt"></i> <span ng-bind-html="item.postUpdate"></span>
+                                    </span>
+                                    <hr>
                                 </p>
+
+
                                 <div ng-bind-html="item.content"></div>
                                 <a ui-sref="readDocument({'uuid':item.contentUuid})" class="btn btn-flat red-text p-1 my-1 mr-0 mml-1">Read More</a>
                             </div>
