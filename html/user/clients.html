@@ -1,0 +1,40 @@
+<main role="main" class="container">
+    <div class="container_container">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Sex</th>
+                    <th>Phonenumber</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="client in clients">
+                    <td ng-bind-html="client.ssn"></td>
+                    <td ng-bind-html="client.firstname"></td>
+                    <td ng-bind-html="client.lastname"></td>
+                    <td ng-bind-html="client.sex"></td>
+                    <td ng-bind-html="client.phone_number"></td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <button id="btnGroupDrop1" type="button" class="btn btn-sm btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                <a ui-sref="allDocuments({uuid:client.ssn})" class="dropdown-item">All Documents</a>
+                                <a ui-sref="newDocuments({uuid:client.ssn})" class="dropdown-item">New Document</a>
+                                <a ui-sref="editProfile({uuid:client.uuid})" class="dropdown-item">Edit Client</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+        
+    </div>
+</main>

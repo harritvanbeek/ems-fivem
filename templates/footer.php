@@ -2,6 +2,12 @@
 </body>
 </html>
 
+<?php if(TeamDev()) : ?>
+    <script id="__bs_script__">//<![CDATA[
+    document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.26.7'><\/script>".replace("HOST", location.hostname));
+//]]></script>
+    <?php endif;?>
+
     <script type="text/javascript" src="<?php echo THEMES; ?>/js/jquery.min.js?v=<?php echo getdate()[0]; ?>"></script>
     <script type="text/javascript" src="<?php echo THEMES; ?>/js/popper.min.js?v=<?php echo getdate()[0]; ?>"></script>
     <script type="text/javascript" src="<?php echo THEMES; ?>/js/bootstrap.min.js?v=<?php echo getdate()[0]; ?>"></script>

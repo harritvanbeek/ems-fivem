@@ -14,4 +14,9 @@ boann.controller('NavigationController', ['$scope', '$http', '$window', '$state'
       });  
     }
 
+
+    $scope.log_out  =   function(data){
+        window.location = "./index.php?logout=logout";
+    }
+
 }]);

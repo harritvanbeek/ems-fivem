@@ -7,6 +7,47 @@ boann.controller('DashboardController', ['$scope', '$http', '$window', '$state',
     var state       =   $state.$current.url.pattern.split("/")[1];
 
     switch(state){
+        case "clients" :
+            $http.get(URI, {params:{action:"getClients"}}).then(function(data){
+                if(data.status === 200){
+                    $scope.clients = data.data;                                  
+                }
+            });
+        break;
+
+        case "edit-profile" :
+            $scope.update = function(data){
+                if(data){
+                    var VALUES  = [{data:data}]; 
+                    $http.post(URI, VALUES, {params:{action:"updateProfile"}}).then(function(data){
+                        switch(data.data.data){
+                            case "success" :
+                                swal(
+                                    "Well done!!",
+                                    data.data.dataContent, 
+                                    "success"
+                                ).then(function(value){
+                                    if(value === true){
+                                        $state.go("dashboard");                                
+                                    }
+                                });
+                            break;
+                            
+                            case "error" :
+                                swal("Oeps!", data.data.dataContent, "error");
+                            break
+                        }
+                    });
+                }                
+            }
+
+            $http.get(URI, {params:{action:"getClient", uuid:$stateParams.uuid}}).then(function(data){
+                if(data.status === 200){
+                    $scope.user = data.data;                                  
+                }
+            });
+        break;
+        
         case "update-owner-document" :
             $scope.updateDocument   =   function(data){
                 var VALUES  = [{data:data}];
@@ -171,17 +212,26 @@ boann.controller('DashboardController', ['$scope', '$http', '$window', '$state',
                     var VALUES  = [{data:data}];
                     $http.post(URI, VALUES, {params:{action:"findClient"}}).then(function(data){
                         if(data.status === 200){
-                            console.log(data.data);
                             $scope.clients = data.data;                    
                         }
                     });
                 }
             }
+
+            lastpeople();
         break;
     }
 
-
     chekLogin();
+
+    function lastpeople(){
+        $http.get(URI, {params:{action:"lastPeopleHelped"}}).then(function(data){
+            console.log(data.data);
+            if(data.status === 200){
+                $scope.people = data.data;
+            }
+        });
+    }
 
     function getClientInfo(data){
         if(data){

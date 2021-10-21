@@ -28,6 +28,100 @@
             }
         break;
 
+        case "updateProfile" :
+            if($input->exist()){
+                $uuid                   =   !empty($input->get("data")["uuid"])                 ? $input->get("data")["uuid"]                           : NULL;
+                $ssn                    =   !empty($input->get("data")["ssn"])                  ? escape($input->get("data")["ssn"])                    : NULL;
+                $firstname              =   !empty($input->get("data")["firstname"])            ? escape($input->get("data")["firstname"])              : NULL;
+                $lastname               =   !empty($input->get("data")["lastname"])             ? escape($input->get("data")["lastname"])               : NULL;
+                $birthdate              =   !empty($input->get("data")["birthdate"])            ? escape($input->get("data")["birthdate"])              : NULL;
+                $sex                    =   !empty($input->get("data")["sex"])                  ? escape($input->get("data")["sex"])                    : NULL;
+                $nationality            =   !empty($input->get("data")["nationality"])          ? escape($input->get("data")["nationality"])            : NULL;
+                $phone_number           =   !empty($input->get("data")["phone_number"])         ? escape($input->get("data")["phone_number"])           : NULL;
+                $driverlicense          =   !empty($input->get("data")["driverlicense"])        ? escape($input->get("data")["driverlicense"])          : NULL;
+                
+                //errors
+                if(empty($ssn)              === true)   { $error = ["Social security Number is a required field"];}
+                elseif(empty($firstname)    === true)   { $error = ["Firstname is a required field"];}
+                elseif(empty($lastname)     === true)   { $error = ["Lastname is a required field"];}
+                elseif(empty($birthdate)    === true)   { $error = ["Birthdate is a required field"];}
+                elseif(empty($sex)          === true)   { $error = ["Sex is a required field"];}
+                elseif(empty($nationality)  === true)   { $error = ["Nationality is a required field"];}
+                
+                if(empty($input->get("data")) === false and empty($error) === true){
+                    $postArray =    [
+                        "uuid"          =>  "{$uuid}",
+                        "ssn"           =>  "{$ssn}",
+                        "firstname"     =>  ucfirst("{$firstname}"),
+                        "lastname"      =>  ucfirst("{$lastname}"),
+                        "birthdate"     =>  "{$birthdate}",
+                        "sex"           =>  "{$sex}",
+                        "nationality"   =>  "{$nationality}",
+                        "phone_number"  =>  "{$phone_number}",
+                        "driverlicense" =>  "{$driverlicense}",
+                    ];
+
+                    if($client->updateClient($postArray) > 0){
+                        $dataArray  =   [
+                            "data"          =>  "success",
+                            "dataContent"   =>  "Profile is created",
+                        ];
+                    }else{
+                        $dataArray  =   [
+                            "data"          =>  "error",
+                            "dataContent"   =>  "Database issu try later again",
+                        ];
+                    };    
+                }else{
+                        $dataArray  =   [
+                            "data"          =>  "error",
+                            "dataContent"   =>  "{$error[0]}",
+                        ];                                       
+                }
+                    echo json_encode($dataArray);
+            }
+        break;
+
+        case "getClient" :
+            if($input->exist("get")){
+                $uuid   =   !empty($input->get("uuid")) ? $input->get("uuid") : NULL;
+                $data   =   $client->getClients($uuid);
+                $dataArray = [
+                    "uuid"          =>  "{$data->uuid}",
+                    "ssn"           =>  "{$data->ssn}",
+                    "firstname"     =>  "{$data->firstname}",
+                    "lastname"      =>  "{$data->lastname}",
+                    "birthdate"     =>  "{$data->birthdate}",
+                    "sex"           =>  "{$data->sex}",
+                    "nationality"   =>  "{$data->nationality}",
+                    "phone_number"  =>  "{$data->phone_number}",
+                    "driverlicense" =>  !empty($data->driverlicense) ? true : false,
+                ];
+                echo json_encode($dataArray);
+            }
+        break;
+        
+        case "getClients" :
+            echo json_encode($client->getClients());
+        break;
+
+        case "lastPeopleHelped" :
+            $data = $client->lastPeopleHelped();
+            foreach($data as $item){  
+                $date     =  new DateTime($item->createdate);              
+                $dataArray[]    =    [
+                    "firstname"  =>  "{$item->firstname}",
+                    "lastname"   =>  "{$item->lastname}",
+                    "bsnNumber"  =>  "{$item->ssn}",
+                    "createdate" =>  "{$date->format('l d, F Y')}",
+                    "createtime" =>  "{$date->format('H:i')}",
+                ];
+            }
+
+            echo json_encode($dataArray);
+           
+        break;
+
         case "updateDocument" :
             if($input->exist()){
                 $contentUuid    =   !empty($input->get("data")["contentUuid"])  ?   $input->get("data")["contentUuid"]      : null;

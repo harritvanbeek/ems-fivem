@@ -1,6 +1,11 @@
 <main role="main" class="container-fluid">
     <div class="container_container">
-        <div class="row">
+        <div class="row" ng-show="items.length < 1">
+           <div class="col-md-4"></div> 
+           <div class="col-md-4 text-center"><span class="h2">No user data fount</span></div> 
+        </div>
+        
+        <div class="row" ng-show="items.length > 0">
             <div class="col-md-3">
                 <input placeholder="filter" ng-model="search" class="form-control">
             </div>

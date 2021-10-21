@@ -2,17 +2,86 @@
     <div class="container_container">
         
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Searche client" ng-model="searche">
+          <input type="text" class="form-control" placeholder="Search client" ng-model="searche">
           <div class="input-group-append">
-            <button ng-click="findClients(searche)" class="btn btn-warning searche_btn">Searche</button>
+            <button ng-click="findClients(searche)" class="btn btn-warning searche_btn">Search</button>
           </div>
         </div>
+       <!--  {{searche.length}} -->
+        <div class="row" ng-if="!searche">
+            <div class="col-md-12 text-center h5" style="margin-bottom: 20px;">Last people helped</div>
+                        
+            <div class="col-md-6">
+                <div class="card" style="margin-bottom: 10px;" ng-repeat="client in people | limitTo:3">
+                    <div class="card-body">
+                        <div class="clearfix">
+                            <h5 class="card-title float-left">
+                                <span ng-bind-html="client.firstname"></span> 
+                                <span ng-bind-html="client.lastname"></span>
+                            </h5>
+                            
+                            <div class="float-right text-muted">
+                                <span class="float-right"> 
+                                    <i class="far fa-calendar-alt"></i> 
+                                    <span ng-bind-html="client.createdate"></span>
+                                </span>
+                                <div></div>
+                                <span class="float-right">
+                                    <i class="far fa-clock"></i>
+                                    <span ng-bind-html="client.createtime"></span>
+                                </span>
+                            </div>                       
+                        </div>
+                        <hr>
+                        <h6 class="card-subtitle mb-2 text-muted">Social Security Number:<span ng-bind-html="client.bsnNumber"></span></h6>
+                        <a ui-sref="allDocuments({uuid:client.bsnNumber})" class="card-link">All Documents</a>
+                        <a ui-sref="newDocuments({uuid:client.bsnNumber})" class="card-link">New Document</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card" style="margin-bottom: 10px;" ng-repeat="client in people | limitTo :3 : 4">
+                    <div class="card-body">
+                        <div class="clearfix">
+                            <h5 class="card-title float-left">
+                                <span ng-bind-html="client.firstname"></span> 
+                                <span ng-bind-html="client.lastname"></span>
+                            </h5>
+                            
+                            <div class="float-right text-muted">
+                                <span class="float-right"> 
+                                    <i class="far fa-calendar-alt"></i> 
+                                    <span ng-bind-html="client.createdate"></span>
+                                </span>
+                                <div></div>
+                                <span class="float-right">
+                                    <i class="far fa-clock"></i>
+                                    <span ng-bind-html="client.createtime"></span>
+                                </span>
+                            </div>                        
+                        </div>
+                        <hr>
+                        <h6 class="card-subtitle mb-2 text-muted">Social Security Number:<span ng-bind-html="client.bsnNumber"></span></h6>
+                        <a ui-sref="allDocuments({uuid:client.bsnNumber})" class="card-link">All Documents</a>
+                        <a ui-sref="newDocuments({uuid:client.bsnNumber})" class="card-link">New Document</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div ng-if="clients.length < 1 || !searche.length < 1" class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4"><a ui-sref="createProfile" class="btn btn-warning">Create Profile</a></div>
+            <hr>
+        </div>
         
-        <div ng-if="clients.length > 0">
-            <div class="card" ng-repeat="client in clients">
+        <div ng-if="clients.length > 0 && !searche.length < 1">            
+            <div class="card" style="margin-bottom: 10px;" ng-repeat="client in clients">
               <div class="card-body">
                 <h5 class="card-title"><span ng-bind-html="client.firstname"></span> <span ng-bind-html="client.lastname"></span></h5>
-                <h6 class="card-subtitle mb-2 text-muted">bsnNumber:<span ng-bind-html="client.bsnNumber"></span></h6>
+                <h6 class="card-subtitle mb-2 text-muted">Social Security Number:<span ng-bind-html="client.bsnNumber"></span></h6>
                 <p class="card-text">Some quick example text to build on the panel title and make up the bulk of the panel's content.</p>
                 <a ui-sref="allDocuments({uuid:client.bsnNumber})" class="card-link">All Documents</a>
                 <a ui-sref="newDocuments({uuid:client.bsnNumber})" class="card-link">New Document</a>
@@ -20,10 +89,6 @@
             </div>
         </div>
 
-        <div ng-if="clients.length < 1" class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-4"><a ui-sref="createProfile" class="btn btn-warning">Create Profile</a></div>
-        </div>
 
     </div>
 </main>

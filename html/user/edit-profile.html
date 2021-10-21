@@ -1,0 +1,66 @@
+<main role="main" class="container">
+    <div class="container_container">
+        
+        <div class="card">
+            <div class="card-body">
+                <p class="h4 mb-4 text-center">Edit Profile</p>
+                
+                <div class="md-form">
+                    <input type="text" id="ssn" ng-model="user.ssn" class="form-control">
+                    <label ng-class="{active:user.ssn}" for="ssn">Social Security Number</label>
+                </div>
+
+                <div class="md-form">
+                    <input type="text" id="firstname" ng-model="user.firstname" class="form-control">
+                    <label ng-class="{active:user.firstname}" for="firstname">Firstname</label>
+                </div>
+
+                <div class="md-form">
+                    <input type="text" id="lastname" ng-model="user.lastname" class="form-control">
+                    <label ng-class="{active:user.lastname}" for="lastname">Lastname</label>
+                </div>
+
+                <div class="md-form">
+                    <input type="text" id="birthdate" ng-model="user.birthdate" class="form-control">
+                    <label ng-class="{active:user.birthdate}" for="birthdate">Date of birth</label>
+                </div>
+
+                <div>Sex</div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="custom-control custom-radio mb-4">
+                            <input type="radio" class="custom-control-input" id="male" value="male" ng-model="user.sex">
+                            <label class="custom-control-label" for="male">Male</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="custom-control custom-radio mb-4">
+                            <input type="radio" class="custom-control-input" id="female" value="female" ng-model="user.sex">
+                            <label class="custom-control-label" for="female">Female</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md-form">
+                    <input type="text" id="nationality" ng-model="user.nationality" class="form-control">
+                    <label ng-class="{active:user.nationality}" for="nationality">Nationality</label>
+                </div>
+                
+                <div class="md-form">
+                    <input type="text" id="phone_number" ng-model="user.phone_number" class="form-control">
+                    <label ng-class="{active:user.phone_number}" for="phone_number">Phone number</label>
+                </div>  
+
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="driverlicense" ng-model="user.driverlicense">
+                    <label class="form-check-label" for="driverlicense">Driverlicense</label>
+                </div>
+                <hr>
+                <button class="btn btn-warning" ng-click="update(user)">Update Profile</button>
+            </div>
+        </div>
+
+    </div>
+</main>

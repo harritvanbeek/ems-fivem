@@ -8,7 +8,7 @@ boann.config(['$stateProvider', '$urlMatcherFactoryProvider', '$urlRouterProvide
                 url: "/",
                 views : {
                     "nav" : {
-                        templateUrl : "./html/nav.html?v="+controler.version,                        
+                        templateUrl : "./html/navigation.html?v="+controler.version,                        
                     },
                     
                     "mainpage" : {
@@ -33,6 +33,21 @@ boann.config(['$stateProvider', '$urlMatcherFactoryProvider', '$urlRouterProvide
                 }
             })
             .state({
+                name:"clients",
+                url: "/clients/",
+                views : {
+                    "nav" : {
+                        templateUrl : "./html/nav.html?v="+controler.version,                        
+                        controller  : "NavigationController",
+                    },
+
+                    "mainpage" : {
+                        templateUrl : "./html/user/clients.html?v="+controler.version,                        
+                        controller  : "DashboardController",
+                    },
+                }
+            })
+            .state({
                 name:"createProfile",
                 url: "/create-profile/",
                 views : {
@@ -43,6 +58,21 @@ boann.config(['$stateProvider', '$urlMatcherFactoryProvider', '$urlRouterProvide
 
                     "mainpage" : {
                         templateUrl : "./html/user/create-profile.html?v="+controler.version,                        
+                        controller  : "DashboardController",
+                    },
+                }
+            })
+            .state({
+                name:"editProfile",
+                url: "/edit-profile/:uuid/",
+                views : {
+                    "nav" : {
+                        templateUrl : "./html/nav.html?v="+controler.version, 
+                        controller  : "NavigationController",                       
+                    },
+
+                    "mainpage" : {
+                        templateUrl : "./html/user/edit-profile.html?v="+controler.version,                        
                         controller  : "DashboardController",
                     },
                 }
